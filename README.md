@@ -29,6 +29,7 @@ It is a custom production skill for:
   - fallback: `pptx-anthropic`
 - keeps evidence-heavy pages editable
 - emits prompt assets for external image generation
+- packages NanoBanana-ready prompt docs as standalone Word guidance when needed
 - targets conference-ready Chinese academic layouts
 - distinguishes:
   - minimum-pass delivery
@@ -88,7 +89,7 @@ Each run now creates a standard package:
 - `02_planning/`
   Workflow brief, execution prompt, topic-only outline seed if needed
 - `03_prompts/`
-  External image prompt pack
+  External image prompt pack, including NanoBanana-ready English prompts and Word guidance when applicable
 - `04_delivery/`
   Delivery checklist and quality rubric
 
@@ -137,3 +138,6 @@ Or use GitHub Desktop:
 
 - This repo intentionally excludes local output, caches, and sensitive local files.
 - The production target is not just “usable”; the intended standard is near-ready academic delivery.
+- Image prompts should be written in English for model control.
+- If an image must contain words, require exact Simplified Chinese strings instead of generic “Chinese text”.
+- Flow diagrams, pathway visuals, and concept structures should prefer external image generation over weak native line art when aesthetics matter.

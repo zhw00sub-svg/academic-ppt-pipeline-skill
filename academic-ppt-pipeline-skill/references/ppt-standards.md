@@ -32,6 +32,10 @@ Default to `目标交付`.
 - `Data page`: numbers must stay editable; charts and cards should be native shapes.
 - `Pathway page`: image may supply the visual path, but labels should be native text.
 - `Summary page`: compress to 3-4 strong conclusions plus one visual anchor.
+- Prefer a strong top title band or judgment band when the reference style uses it.
+- Let the lower 60-70% of the slide carry the real work: text cards, diagrams, charts, or pathway structures.
+- A slide should usually feel visually full from edge to edge, not like a centered block floating in empty space.
+- Left-dense-text plus right-visual is a primary pattern, not an exception.
 
 ## Typography floor
 
@@ -48,6 +52,8 @@ Never pursue elegance by dropping below conference readability.
 - Slides may be full if the reference template is full.
 - Half-screen text blocks are acceptable and often desirable.
 - Leave breathing room, but do not over-preserve whitespace.
+- If the reference example uses a large banner title area, mirror that hierarchy instead of shrinking the title into a corner.
+- Use cards, callout strips, timelines, and chart blocks to occupy the page intentionally.
 - If the slide still feels like a draft, it is not at the target standard yet.
 - If a slide is still too empty after the core content is placed, add one of:
   - literature cover strip
@@ -71,3 +77,4 @@ Never pursue elegance by dropping below conference readability.
 3. Check that text-heavy slides still use readable font sizes.
 4. Check that image pages do not look more polished than the academic content pages.
 5. Check that the full deck still belongs to one visual family.
+6. Check that the slide architecture is full and keynote-grade, but still academically dense.

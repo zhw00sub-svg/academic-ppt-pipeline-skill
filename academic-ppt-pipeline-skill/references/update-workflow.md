@@ -12,6 +12,8 @@ Updates should improve the production system, not just patch one project.
 - stronger topic-only fallback
 - clearer prompt standards
 - cleaner repository usability
+- better coordination between PPT layout and external image generation
+- better Chinese-language image control for Chinese presentation use cases
 
 ## Recommended update sequence
 
@@ -22,6 +24,8 @@ Updates should improve the production system, not just patch one project.
    - quality
    - repeatability
    - usability
+   - prompt-language clarity for image generation
+   - Chinese text reliability when images must contain visible words
 5. Commit only after a successful local run.
 
 ## Keep these stable unless intentionally changed
@@ -30,3 +34,4 @@ Updates should improve the production system, not just patch one project.
 - target-delivery standard
 - editable-first principle
 - external image prompt role
+- English-prompt / Simplified-Chinese-text rule for image workflows

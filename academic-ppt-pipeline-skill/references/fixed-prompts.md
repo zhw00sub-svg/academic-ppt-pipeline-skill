@@ -67,6 +67,8 @@ Requirements:
 - do not turn data pages into decorative pages
 - maintain large readable Chinese typography
 - prefer text-heavy half-screen layouts where the material supports it
+- prefer a strong title band or judgment band when the reference style supports it
+- make the page feel full and editorial, not sparse and product-keynote-like
 - identify which claims must stay evidence-bound
 ```
 
@@ -105,6 +107,8 @@ The deck must meet target-delivery standard:
 - fonts must remain conference-readable
 - pages may be dense if the content requires density
 - use asymmetrical academic layouts, not sparse product-keynote layouts
+- when appropriate, use a large top title band with a dense lower information field
+- allow left-half or right-half text-heavy pages if that matches the approved reference
 - keep evidence-heavy content native inside PowerPoint
 - use image assets only where they strengthen the page
 
@@ -131,7 +135,9 @@ The prompts must:
 - use navy / teal / warm sand palette
 - prefer flat layered 2D editorial style
 - leave clean negative space for editable slide text
-- avoid all generated text inside the image
+- use English prompt wording for model control
+- if the image must contain visible words, require exact Simplified Chinese strings
+- avoid unnecessary generated text inside the image
 
 Also return:
 - negative prompt
@@ -169,6 +175,7 @@ Prepare the final output package for a Chinese academic PPT project.
 Default package:
 - editable PPT
 - external image prompt guide
+- external-image Word guide when the images are meant to be generated in NanoBanana or another outside tool
 - extraction artifact if raw materials existed
 
 If the workflow is being productized into a reusable skill:

@@ -161,10 +161,26 @@ function parsePptx(filePath) {
 }
 
 function parseLiterature(inputPath) {
-  const stat = fs.statSync(inputPath);
-  const files = stat.isDirectory()
-    ? fs.readdirSync(inputPath).filter((name) => name.toLowerCase().endsWith(".pdf")).sort((a, b) => a.localeCompare(b, "zh-Hans-CN"))
-    : [path.basename(inputPath)];
+  const lower = inputPath.toLowerCase();
+  let files = [];
+
+  if (lower.endsWith(".zip")) {
+    files = run("zipinfo", ["-1", inputPath])
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((name) => name.toLowerCase().endsWith(".pdf"))
+      .map((name) => path.basename(name))
+      .filter((name) => !name.startsWith("._"))
+      .sort((a, b) => a.localeCompare(b, "zh-Hans-CN"));
+  } else {
+    const stat = fs.statSync(inputPath);
+    files = stat.isDirectory()
+      ? fs.readdirSync(inputPath)
+        .filter((name) => name.toLowerCase().endsWith(".pdf"))
+        .filter((name) => !name.startsWith("._"))
+        .sort((a, b) => a.localeCompare(b, "zh-Hans-CN"))
+      : [path.basename(inputPath)];
+  }
 
   return {
     type: "pdf",
@@ -192,22 +208,30 @@ function buildOutlineSummary(data) {
       .map((k) => [Number(k), headerRow[k]])
       .sort((a, b) => a[0] - b[0]);
 
+    function pick(byHeader, aliases) {
+      for (const label of aliases) {
+        if (byHeader[label]) return byHeader[label];
+      }
+      return "";
+    }
+
     const slides = mainSheet.rows.slice(1).map((row) => {
       const byHeader = {};
       headers.forEach(([idx, label]) => {
         byHeader[label] = row.cells[idx] || "";
       });
       return {
-        pageNo: byHeader["页码"] || "",
-        title: byHeader["页面标题"] || "",
-        onscreen: byHeader["屏幕上写什么（可直接上屏）"] || "",
-        notes: byHeader["口头讲什么（讲者备注）"] || "",
-        layout: byHeader["版式/排版描述"] || "",
-        imagePrompt: byHeader["Nanobanana图片Prompt"] || "",
-        chartData: byHeader["建议图表/数据"] || "",
-        evidence: byHeader["主证据与支持点"] || "",
-        refs: byHeader["建议挂文献（短引）"] || "",
-        remark: byHeader["备注"] || "",
+        pageNo: pick(byHeader, ["页码"]) || "",
+        title: pick(byHeader, ["页面标题", "页标题"]) || "",
+        task: pick(byHeader, ["这一页的任务"]) || "",
+        onscreen: pick(byHeader, ["屏幕上写什么（可直接上屏）", "屏幕文案（可直接上PPT）"]) || "",
+        notes: pick(byHeader, ["口头讲什么（讲者备注）", "口头讲稿（讲者备注）"]) || "",
+        layout: pick(byHeader, ["版式/排版描述", "排版描述"]) || "",
+        imagePrompt: pick(byHeader, ["Nanobanana图片Prompt", "Nanobanana配图Prompt"]) || "",
+        chartData: pick(byHeader, ["建议图表/数据"]) || "",
+        evidence: pick(byHeader, ["主证据与支持点"]) || "",
+        refs: pick(byHeader, ["建议挂文献（短引）", "建议文献编号"]) || "",
+        remark: pick(byHeader, ["备注"]) || "",
       };
     });
 

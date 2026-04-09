@@ -138,10 +138,12 @@ The current accepted deck is only the minimum gate. It is not the target finish 
 - Fonts must be readable at conference distance.
 - Prefer larger Chinese text over elegant but undersized layouts.
 - Avoid sparse keynote-style empty pages.
+- If the approved reference uses a wide top banner and a full lower information field, follow that architecture.
 - Use asymmetrical academic layouts when appropriate:
   - left dense text + right image
   - right dense text + left literature figure
   - stacked cards plus literature strip
+-   strong title band + dense lower diagrams/cards
 - One slide can be text-heavy if the template supports it.
 - Do not shrink text just to preserve decorative spacing.
 - Default toward the target standard, not the minimum gate.
@@ -168,6 +170,7 @@ Read [references/prompt-standards.md](references/prompt-standards.md) for prompt
 When the user asks for a full package, default to:
 - editable `.pptx`
 - image prompt guidance document
+- if images are meant for external tools such as NanoBanana, package them as a standalone Word document with slide-by-slide prompts
 - extraction artifact when raw inputs exist
 - optional local skill or SOP bundle if the user wants the workflow automated
 
@@ -198,5 +201,6 @@ This skill should behave like a guided production system:
 
 - If a user says a specific generated image is the standard, use that image as the visual benchmark for future prompts.
 - If the template shows large fonts and full-page content blocks, follow that instead of generic product-keynote aesthetics.
+- If a PDF reference shows a keynote-grade title band and fuller page occupation, mirror its page architecture while preserving academic density.
 - If inputs are incomplete, downgrade evidence certainty when needed, but do not downgrade craft ambition.
 - Treat the repo version of this skill as the maintainable product surface.

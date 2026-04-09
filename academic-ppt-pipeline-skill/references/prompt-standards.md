@@ -13,6 +13,14 @@ Avoid:
 - data-heavy results pages
 - evidence ladder pages with specific numbers
 
+## Prompt language and text language
+
+- Write the prompt body in English for better model control.
+- If the image itself must contain text, explicitly require **Simplified Chinese**.
+- When Chinese text is needed, provide the exact Chinese string inside the prompt.
+- Keep in-image text minimal. Titles, numbers, and editable labels should still stay in PowerPoint whenever possible.
+- If the model cannot render Chinese reliably, remove the text requirement from the image and place the Chinese back into PPT as editable text.
+
 ## Base prompt
 
 ```text
@@ -40,7 +48,7 @@ Academic editorial pathway-board illustration for a clinical strategy slide, cle
 ## Negative prompt
 
 ```text
-no chinese text, no english headline, no poster typography, no watermark, no hospital advertisement style, no purple-blue medical template style, no glossy 3D rendering, no chrome texture, no strong perspective, no dramatic light beam, no human face close-up, no handshake doctor photo, no crowded infographic, no low-resolution artifact, no random symbols.
+no english headline, no random english text, no poster typography, no watermark, no hospital advertisement style, no purple-blue medical template style, no glossy 3D rendering, no chrome texture, no strong perspective, no dramatic light beam, no human face close-up, no handshake doctor photo, no crowded infographic, no low-resolution artifact, no random symbols.
 ```
 
 ## If the model keeps generating text
