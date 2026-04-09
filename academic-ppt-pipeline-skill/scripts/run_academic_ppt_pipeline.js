@@ -31,6 +31,10 @@ function readText(p) {
   return fs.readFileSync(p, "utf8");
 }
 
+function ensureDir(dirPath) {
+  fs.mkdirSync(dirPath, { recursive: true });
+}
+
 function normalizeTopic(args) {
   return args.topic || args.title || "";
 }
@@ -148,13 +152,94 @@ function buildWorkflowBrief(manifest, extraction) {
   lines.push("");
   lines.push("## 标准输出包");
   lines.push("");
-  lines.push("- `01_input_extract.*`：输入抽取结果");
-  lines.push("- `02_workflow_brief.md`：本次执行摘要");
-  lines.push("- `03_execution_prompt.md`：直接执行提示");
-  lines.push("- `04_image_prompt_pack.md`：外部生图提示包");
-  lines.push("- `05_delivery_checklist.md`：交付检查表");
+  lines.push("- `01_intake/`：输入、抽取、运行参数");
+  lines.push("- `02_planning/`：执行摘要、页纲草案、执行提示");
+  lines.push("- `03_prompts/`：外部生图与生产 prompts");
+  lines.push("- `04_delivery/`：交付检查表与质量判定");
   lines.push("");
   return `${lines.join("\n")}\n`;
+}
+
+function buildTopicOnlyOutlineSeed(manifest) {
+  const topic = manifest.topic || "未命名学术主题";
+  const audience = manifest.inputs.audience || "学术会议听众";
+  const duration = manifest.inputs.durationMinutes || "10-15";
+
+  return `# Topic-Only 页纲草案
+
+## 输入假设
+
+- 主题：${topic}
+- 听众：${audience}
+- 预估时长：${duration} 分钟
+- 当前模式：topic-only / partial-input
+
+## 建议基础结构
+
+### P1 封面
+- 目标：定义主题与讨论边界
+- 类型： framing
+
+### P2 为什么这个问题值得现在讨论
+- 目标：建立背景与临床现实
+- 类型： framing
+
+### P3 当前关键定义 / 共识 / 文件地图
+- 目标：给出领域地图
+- 类型： evidence-required
+
+### P4 当前证据支持的核心判断
+- 目标：压缩中心结论
+- 类型： interpretation + evidence-bound
+
+### P5-P7 关键临床场景
+- 目标：把问题拆成 2-3 个最有临床抓手的场景
+- 类型： evidence-required
+
+### P8 边界与风险
+- 目标：主动讲清证据不足与实践限制
+- 类型： evidence-required
+
+### P9 下一步研究或实践议程
+- 目标：把讨论推进到行动
+- 类型： interpretation
+
+### P10 总结
+- 目标：收束成 3-4 条 take-home messages
+- 类型： summary
+
+## 使用说明
+
+- 有了文献后，再把 evidence-required 页面补成严格证据页。
+- 在没有模板时，仍按大字号、半屏文字、可编辑数据页的目标交付标准制作。
+`;
+}
+
+function buildQualityRubric() {
+  return `# 交付质量判定
+
+## 最低过线
+
+- editable \`.pptx\` 已生成
+- 标题与正文保持会场可读字号
+- 无明显文字/形状/线条重叠
+- 数据与证据页保持原生可编辑
+- 生图页与正文页没有明显冲突
+
+## 目标交付
+
+- 多数页面只需轻微修改即可上会
+- 图文像同一套系统，而不是后拼接
+- 文字页虽然密，但仍然舒服可读
+- 数据页与比较页不退化成模板风
+- 没有任何一页落回稀疏 keynote 感
+
+## 判定规则
+
+- 若仅满足上半部分，则仍只是“最低过线”
+- 默认目标应是“目标交付”
+- 如出现小字体、重叠、空页感、图文脱节，应判定为未达目标交付
+`;
 }
 
 function buildExecutionPrompt(manifest, extraction, skillDir) {
@@ -239,21 +324,30 @@ function main() {
 
   const stamp = new Date().toISOString().replace(/[:.]/g, "-");
   const outputDir = path.resolve(args["output-dir"] || path.join("output", `academic_ppt_run_${stamp}`));
-  fs.mkdirSync(outputDir, { recursive: true });
+  ensureDir(outputDir);
+  const intakeDir = path.join(outputDir, "01_intake");
+  const planningDir = path.join(outputDir, "02_planning");
+  const promptsDir = path.join(outputDir, "03_prompts");
+  const deliveryDir = path.join(outputDir, "04_delivery");
+  [intakeDir, planningDir, promptsDir, deliveryDir].forEach(ensureDir);
 
   let extraction = null;
   if (outlinePath || templatePath || literaturePath) {
     extraction = buildExtraction(outlinePath, templatePath, literaturePath);
-    fs.writeFileSync(path.join(outputDir, "01_input_extract.json"), JSON.stringify(extraction, null, 2), "utf8");
-    fs.writeFileSync(path.join(outputDir, "01_input_extract.md"), renderMarkdown(extraction), "utf8");
+    fs.writeFileSync(path.join(intakeDir, "01_input_extract.json"), JSON.stringify(extraction, null, 2), "utf8");
+    fs.writeFileSync(path.join(intakeDir, "01_input_extract.md"), renderMarkdown(extraction), "utf8");
   }
 
   const manifest = buildManifest(args, mode, extraction, outputDir);
-  fs.writeFileSync(path.join(outputDir, "00_run_manifest.json"), JSON.stringify(manifest, null, 2), "utf8");
-  fs.writeFileSync(path.join(outputDir, "02_workflow_brief.md"), buildWorkflowBrief(manifest, extraction), "utf8");
-  fs.writeFileSync(path.join(outputDir, "03_execution_prompt.md"), buildExecutionPrompt(manifest, extraction, skillDir), "utf8");
-  fs.writeFileSync(path.join(outputDir, "04_image_prompt_pack.md"), buildImagePromptPack(manifest, skillDir), "utf8");
-  fs.writeFileSync(path.join(outputDir, "05_delivery_checklist.md"), buildChecklist(), "utf8");
+  fs.writeFileSync(path.join(intakeDir, "00_run_manifest.json"), JSON.stringify(manifest, null, 2), "utf8");
+  fs.writeFileSync(path.join(planningDir, "02_workflow_brief.md"), buildWorkflowBrief(manifest, extraction), "utf8");
+  fs.writeFileSync(path.join(planningDir, "03_execution_prompt.md"), buildExecutionPrompt(manifest, extraction, skillDir), "utf8");
+  if (mode === "topic_only") {
+    fs.writeFileSync(path.join(planningDir, "04_topic_only_outline_seed.md"), buildTopicOnlyOutlineSeed(manifest), "utf8");
+  }
+  fs.writeFileSync(path.join(promptsDir, "04_image_prompt_pack.md"), buildImagePromptPack(manifest, skillDir), "utf8");
+  fs.writeFileSync(path.join(deliveryDir, "05_delivery_checklist.md"), buildChecklist(), "utf8");
+  fs.writeFileSync(path.join(deliveryDir, "06_quality_rubric.md"), buildQualityRubric(), "utf8");
 
   console.log(outputDir);
 }

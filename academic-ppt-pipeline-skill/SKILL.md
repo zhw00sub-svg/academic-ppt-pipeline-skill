@@ -124,6 +124,7 @@ Use this extraction output as the planning source of truth for step one.
 
 For actual workflow language and repeated execution, use the fixed prompts in:
 - [references/fixed-prompts.md](references/fixed-prompts.md)
+- [references/update-workflow.md](references/update-workflow.md)
 
 ## Delivery bar
 
@@ -170,6 +171,12 @@ When the user asks for a full package, default to:
 - extraction artifact when raw inputs exist
 - optional local skill or SOP bundle if the user wants the workflow automated
 
+The standard run package should be organized into:
+- `01_intake`
+- `02_planning`
+- `03_prompts`
+- `04_delivery`
+
 ## Operating principle
 
 This skill should behave like a guided production system:
@@ -192,3 +199,4 @@ This skill should behave like a guided production system:
 - If a user says a specific generated image is the standard, use that image as the visual benchmark for future prompts.
 - If the template shows large fonts and full-page content blocks, follow that instead of generic product-keynote aesthetics.
 - If inputs are incomplete, downgrade evidence certainty when needed, but do not downgrade craft ambition.
+- Treat the repo version of this skill as the maintainable product surface.
