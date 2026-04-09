@@ -1,0 +1,8 @@
+interface:
+  display_name: "Academic PPT Pipeline"
+  short_description: "Guided Chinese academic PPT workflow and delivery"
+  brand_color: "#244968"
+  default_prompt: "Use $academic-ppt-pipeline to guide me step by step from topic or materials to an editable academic PPT delivery."
+
+policy:
+  allow_implicit_invocation: true

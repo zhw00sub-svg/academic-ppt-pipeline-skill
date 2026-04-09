@@ -1,0 +1,11 @@
+{
+  "name": "academic-ppt-pipeline-skill",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "academic-ppt-pipeline": "node academic-ppt-pipeline-skill/scripts/run_academic_ppt_pipeline.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}
