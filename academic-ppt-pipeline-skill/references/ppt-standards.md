@@ -3,6 +3,7 @@
 ## Core principle
 
 The deck must look like an editable academic presentation, not a sparse tech keynote and not a hospital poster.
+If the user has a historical personal deck corpus, body-page style should inherit from that corpus first.
 
 ## Two quality levels
 
@@ -36,6 +37,7 @@ Default to `目标交付`.
 - Let the lower 60-70% of the slide carry the real work: text cards, diagrams, charts, or pathway structures.
 - A slide should usually feel visually full from edge to edge, not like a centered block floating in empty space.
 - Left-dense-text plus right-visual is a primary pattern, not an exception.
+- Human presenter judgment should often be visible via a takeaway, analysis tag, or explicitly organized conclusion zone.
 
 ## Typography floor
 
@@ -44,6 +46,7 @@ Default to `目标交付`.
 - Card title: around `16.5-18pt`
 - Body text: usually `13.5-18pt` depending on density
 - Footer references: around `8.5-10pt`
+- If the user's own corpus uses stronger visible body sizes, follow that instead of generic elegance.
 
 Never pursue elegance by dropping below conference readability.
 
@@ -54,6 +57,7 @@ Never pursue elegance by dropping below conference readability.
 - Leave breathing room, but do not over-preserve whitespace.
 - If the reference example uses a large banner title area, mirror that hierarchy instead of shrinking the title into a corner.
 - Use cards, callout strips, timelines, and chart blocks to occupy the page intentionally.
+- Dense occupation is a feature when it feels authored and hierarchical.
 - If the slide still feels like a draft, it is not at the target standard yet.
 - If a slide is still too empty after the core content is placed, add one of:
   - literature cover strip
@@ -69,6 +73,12 @@ Never pursue elegance by dropping below conference readability.
 - references
 - arrows and labels that the speaker may need to revise
 - page-specific clinical conclusions
+
+## Color guidance
+
+- Avoid washed-out cream or overly pale “AI minimal” pages when the user's corpus is more saturated.
+- Prefer stronger charcoal, tea-brown, khaki, muted vermilion, mustard, cyan, or green accents when they match the user's style corpus.
+- Stronger color does not mean brighter color. It means clearer, denser, more intentional color placement.
 
 ## QA pass before delivery
 

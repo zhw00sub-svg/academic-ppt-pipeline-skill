@@ -21,6 +21,13 @@ Avoid:
 - Keep in-image text minimal. Titles, numbers, and editable labels should still stay in PowerPoint whenever possible.
 - If the model cannot render Chinese reliably, remove the text requirement from the image and place the Chinese back into PPT as editable text.
 
+## Color direction
+
+- If the user references [NIPPON COLORS](https://nipponcolors.com/), treat that as a palette philosophy source.
+- Prefer richer charcoal / tea / khaki / muted vermilion families over pale cream minimalism when that matches the user's corpus.
+- Avoid over-milky beige and washed-out pastel output.
+- The image should feel concentrated and clear, not sugary or faded.
+
 ## Base prompt
 
 ```text

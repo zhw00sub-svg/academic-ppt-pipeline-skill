@@ -11,6 +11,7 @@ Use this skill when the user wants an academic or medical presentation that must
 - editable `.pptx`, not image-only
 - based on a planning spreadsheet, template PPT, and literature PDFs
 - visually close to an approved reference style
+- optionally anchored to a personal style corpus from the user's own `pdf + pptx` decks
 - supported by image-generation prompts for a few key slides
 - delivered with a repeatable SOP and QA standard
 
@@ -81,6 +82,7 @@ Read [references/workflow-modes.md](references/workflow-modes.md).
    - accept `word` or `xlsx` as the lecture outline
    - accept optional template `.pptx`
    - accept literature `.pdf` folder or single pdf
+   - if the user provides personal style `pdf/pptx` references, analyze those before choosing the visual system
    - use `scripts/extract_academic_ppt_inputs.js` to create a machine-readable summary before planning slides
 3. Identify page types before building:
    - cover / opener
@@ -139,6 +141,7 @@ The current accepted deck is only the minimum gate. It is not the target finish 
 - Prefer larger Chinese text over elegant but undersized layouts.
 - Avoid sparse keynote-style empty pages.
 - If the approved reference uses a wide top banner and a full lower information field, follow that architecture.
+- If the user has a personal style corpus, that corpus outranks generic academic aesthetics.
 - Use asymmetrical academic layouts when appropriate:
   - left dense text + right image
   - right dense text + left literature figure
@@ -149,6 +152,7 @@ The current accepted deck is only the minimum gate. It is not the target finish 
 - Default toward the target standard, not the minimum gate.
 
 Read [references/ppt-standards.md](references/ppt-standards.md) for the detailed layout and QA rules.
+For the current user's personalized正文页风格, also read [references/zhw-personal-style.md](references/zhw-personal-style.md).
 
 ## Image-generation standard
 
@@ -202,5 +206,6 @@ This skill should behave like a guided production system:
 - If a user says a specific generated image is the standard, use that image as the visual benchmark for future prompts.
 - If the template shows large fonts and full-page content blocks, follow that instead of generic product-keynote aesthetics.
 - If a PDF reference shows a keynote-grade title band and fuller page occupation, mirror its page architecture while preserving academic density.
+- If the user provides their own historical decks, treat those decks as the highest-priority style truth for body-page design.
 - If inputs are incomplete, downgrade evidence certainty when needed, but do not downgrade craft ambition.
 - Treat the repo version of this skill as the maintainable product surface.

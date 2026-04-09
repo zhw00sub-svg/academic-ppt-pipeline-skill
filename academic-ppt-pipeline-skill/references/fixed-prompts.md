@@ -39,9 +39,38 @@ Return:
 - slide count if available
 - evidence availability by page
 - template style cues if available
+- personal style corpus cues if the user supplied historical `pdf/pptx` decks
 - risks caused by missing inputs
 
 Do not write slide copy yet. Do not fabricate data.
+```
+
+## 1A. Personal style extraction prompt
+
+Use when the user provides their own historical `pdf` / `pptx` decks and wants future decks to look like them.
+
+```text
+You are extracting a personal presentation style profile from the user's own historical body-page decks.
+
+Focus on:
+- title architecture
+- page density
+- left-right asymmetry
+- chart and literature placement
+- recurring judgment zones
+- color concentration and palette direction
+- what makes the pages feel human rather than generic
+- what visual habits should be avoided
+
+Return:
+- core style summary
+- recurring page motifs
+- palette guidance
+- typography guidance
+- anti-patterns
+- operational rules that future decks must follow
+
+Prioritize the user's own decks over generic design conventions.
 ```
 
 ## 2. Outline synthesis prompt for structured materials
@@ -69,6 +98,7 @@ Requirements:
 - prefer text-heavy half-screen layouts where the material supports it
 - prefer a strong title band or judgment band when the reference style supports it
 - make the page feel full and editorial, not sparse and product-keynote-like
+- if the user has a personal style corpus, inherit its body-page grammar before using any default visual system
 - identify which claims must stay evidence-bound
 ```
 
@@ -109,6 +139,7 @@ The deck must meet target-delivery standard:
 - use asymmetrical academic layouts, not sparse product-keynote layouts
 - when appropriate, use a large top title band with a dense lower information field
 - allow left-half or right-half text-heavy pages if that matches the approved reference
+- if the user's historical decks use stronger, more concentrated colors, do not wash the page into pale cream minimalism
 - keep evidence-heavy content native inside PowerPoint
 - use image assets only where they strengthen the page
 

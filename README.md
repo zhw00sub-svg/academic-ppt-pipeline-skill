@@ -10,6 +10,7 @@ It is a custom production skill for:
 - editable `.pptx` delivery
 - evidence-aware page design
 - external image-prompt coordination
+- personal style-corpus learning from the user's own historical `pdf + pptx` decks
 - repeatable project execution
 
 ## What this repo contains
@@ -31,6 +32,7 @@ It is a custom production skill for:
 - emits prompt assets for external image generation
 - packages NanoBanana-ready prompt docs as standalone Word guidance when needed
 - targets conference-ready Chinese academic layouts
+- can prioritize a personal body-page style corpus over generic template aesthetics
 - distinguishes:
   - minimum-pass delivery
   - target-delivery standard
@@ -45,6 +47,7 @@ Use when you have some or all of:
 - template `pptx`
 - literature `pdf` folder
 - approved benchmark image
+- personal style reference `pdf + pptx` corpus
 
 ### Topic-only mode
 
@@ -141,3 +144,4 @@ Or use GitHub Desktop:
 - Image prompts should be written in English for model control.
 - If an image must contain words, require exact Simplified Chinese strings instead of generic “Chinese text”.
 - Flow diagrams, pathway visuals, and concept structures should prefer external image generation over weak native line art when aesthetics matter.
+- If the user supplies historical decks, those decks should become the highest-priority style truth for body pages.
