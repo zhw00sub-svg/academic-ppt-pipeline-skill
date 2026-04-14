@@ -4,6 +4,7 @@
 
 The deck must look like an editable academic presentation, not a sparse tech keynote and not a hospital poster.
 If the user has a historical personal deck corpus, body-page style should inherit from that corpus first.
+The page should maximize **effective information density**, not just visual neatness.
 
 ## Two quality levels
 
@@ -33,11 +34,16 @@ Default to `目标交付`.
 - `Data page`: numbers must stay editable; charts and cards should be native shapes.
 - `Pathway page`: image may supply the visual path, but labels should be native text.
 - `Summary page`: compress to 3-4 strong conclusions plus one visual anchor.
+- Images should carry structure, content, or paper presence; avoid beauty-only decoration.
+- Prefer `left image + right text` as a primary lecture layout when the material supports it.
+- Use structured grids when multiple evidence modules need to coexist.
 - Prefer a strong top title band or judgment band when the reference style uses it.
 - Let the lower 60-70% of the slide carry the real work: text cards, diagrams, charts, or pathway structures.
 - A slide should usually feel visually full from edge to edge, not like a centered block floating in empty space.
 - Left-dense-text plus right-visual is a primary pattern, not an exception.
 - Human presenter judgment should often be visible via a takeaway, analysis tag, or explicitly organized conclusion zone.
+- Large-radius containers are acceptable when they help structure content, but they must not turn the page into a repetitive card template.
+- Icon language should stay minimal, sparse, and clinical.
 
 ## Typography floor
 
@@ -46,6 +52,7 @@ Default to `目标交付`.
 - Card title: around `16.5-18pt`
 - Body text: usually `13.5-18pt` depending on density
 - Footer references: around `8.5-10pt`
+- Default to sans-serif typography for both Chinese and English, unless a project-specific reference explicitly overrides it.
 - If the user's own corpus uses stronger visible body sizes, follow that instead of generic elegance.
 
 Never pursue elegance by dropping below conference readability.
@@ -55,6 +62,7 @@ Never pursue elegance by dropping below conference readability.
 - Slides may be full if the reference template is full.
 - Half-screen text blocks are acceptable and often desirable.
 - Leave breathing room, but do not over-preserve whitespace.
+- Prefer a full-page lecture surface where text, figures, charts, and interpretation coexist.
 - If the reference example uses a large banner title area, mirror that hierarchy instead of shrinking the title into a corner.
 - Use cards, callout strips, timelines, and chart blocks to occupy the page intentionally.
 - Dense occupation is a feature when it feels authored and hierarchical.
@@ -76,9 +84,18 @@ Never pursue elegance by dropping below conference readability.
 
 ## Color guidance
 
+- Default to white background as the main contrast surface unless a project explicitly needs otherwise.
 - Avoid washed-out cream or overly pale “AI minimal” pages when the user's corpus is more saturated.
-- Prefer stronger charcoal, tea-brown, khaki, muted vermilion, mustard, cyan, or green accents when they match the user's style corpus.
+- Prefer deep medical blue as the dominant family.
+- Prefer brick red and restrained vermilion / orange as the main emphasis colors.
+- Prefer medical cyan / teal as the secondary support family.
+- NIPPON COLORS should guide concentration and restraint, not force an earthy-beige deck.
 - Stronger color does not mean brighter color. It means clearer, denser, more intentional color placement.
+
+## Asset quality
+
+- Build or source charts, screenshots, and image assets with 4K / ultra-high-definition intent whenever possible.
+- Avoid blurry figures, stretched screenshots, or low-information decorative imagery.
 
 ## QA pass before delivery
 

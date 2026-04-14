@@ -37,6 +37,45 @@ It is a custom production skill for:
   - minimum-pass delivery
   - target-delivery standard
 
+## V2 architecture
+
+This skill is moving from “direct PPT generation” toward an asset-driven production architecture:
+
+1. `content pipeline`
+   - framework
+   - material ingestion
+   - content allocation
+   - copy refinement
+2. `visual pipeline`
+   - figure / table / chart extraction
+   - chart remake
+   - external image prompt generation
+   - asset sourcing
+3. `asset registry`
+   - slide-level indexing of copy, numbers, refs, figures, charts, icons, prompts, and layout intent
+4. `design system pipeline`
+   - palette logic
+   - template / body-page match
+   - final editable `.pptx` assembly
+
+See:
+- `academic-ppt-pipeline-skill/references/v2-architecture.md`
+
+## Standard startup flow
+
+Every new project should start from the same production sequence:
+
+1. normalize inputs
+2. run content pipeline
+3. run visual pipeline
+4. build asset registry by slide
+5. assemble editable `.pptx`
+6. package external image prompts
+7. run QA
+
+Detailed SOP:
+- `academic-ppt-pipeline-skill/references/project-startup-flow.md`
+
 ## Input modes
 
 ### Structured materials
@@ -143,5 +182,6 @@ Or use GitHub Desktop:
 - The production target is not just “usable”; the intended standard is near-ready academic delivery.
 - Image prompts should be written in English for model control.
 - If an image must contain words, require exact Simplified Chinese strings instead of generic “Chinese text”.
-- Flow diagrams, pathway visuals, and concept structures should prefer external image generation over weak native line art when aesthetics matter.
+- The default image workflow is prompt-first external generation, because a stable long-term integrated API may not exist.
+- Flow diagrams, pathway visuals, and concept structures should prefer external image generation prompts over weak native line art when aesthetics matter.
 - If the user supplies historical decks, those decks should become the highest-priority style truth for body pages.

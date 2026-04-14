@@ -67,6 +67,8 @@ It should not feel:
   - left chart + right figure/paper
   - full-width timeline with commentary zone
   - top statement + lower evidence field
+- left image + right text
+- structured academic grid
 - Avoid overly centered symmetry unless the content truly demands it.
 
 ### 5. Dense pages are acceptable
@@ -80,6 +82,7 @@ It should not feel:
 - The source decks use `Helvetica Light` in the theme for English.
 - Chinese pages should emulate a modern sans with enough weight and presence.
 - Avoid overly thin Chinese text when projected at conference distance.
+- Sans-serif should remain the default family.
 
 ### Practical hierarchy
 
@@ -91,24 +94,29 @@ It should not feel:
 
 ## Color system
 
-The user's pages are **more saturated and more grounded** than the recent pale outputs.
+The user's pages are **more saturated and more commercially legible** than pale AI outputs.
 
-Recurring slide colors observed in the corpus:
+The updated default should be:
+- white background as the main contrast field
+- medical blue as the dominant family
+- restrained red / vermilion and orange as primary accents
+- charcoal and warm neutrals as structural support
+
+Recurring and acceptable color directions:
 - charcoal blue-gray: `#53585F`
 - dark warm gray: `#5D5D5D`, `#606060`
-- stone khaki / pale tea: `#C8C2AC`
-- aged brown-khaki: `#A39974`
-- deeper tea-brown: `#70684A`
-- restrained cinnabar: `#BE5449`
-- mustard highlight: `#EDB343`
-- cyan accent: `#1DC9E1`
-- green accent: `#9FDC46`
+- medical / editorial blue: `#2F5D9F`, `#3F7CAC`, `#1DC9E1`
+- restrained cinnabar / vermilion: `#BE5449`
+- amber / orange highlight: `#EDB343`
+- stone khaki or tea neutrals only as support, not as the whole deck
 
 ### Color rules
 
-- Base should still be light, but not milky or washed out.
+- Base should default to white, not milky beige.
 - Use stronger contrast between headline, structural lines, and analytical zones.
-- Prefer stone / tea / charcoal families over creamy beige.
+- Prefer medical blue + restrained red/orange emphasis over generic hospital-template blue.
+- Brick red and medical cyan are especially aligned with the current preference.
+- Use stone / tea / charcoal families as balancing support, not as the dominant mood by default.
 - Accent colors should be selective but visible.
 - Color should feel curated, not default.
 
@@ -116,11 +124,12 @@ Recurring slide colors observed in the corpus:
 
 Use the site as a palette philosophy:
 - muted but concentrated
-- earthy rather than candy-like
-- traditional but clear
-- restrained warmth rather than pale softness
+- restrained rather than sugary
+- clear rather than muddy
+- concentrated rather than faded
 
 Do not interpret this as “everything should become beige”.
+The user's current preference is closer to white-background medical-commercial clarity, refined by NIPPON COLORS restraint.
 
 ## Page motifs to preserve
 
@@ -128,6 +137,9 @@ Do not interpret this as “everything should become beige”.
 - strong banner title area
 - large vertical side phrase as a structural device
 - chart + figure pairing
+- left-image right-text body pages
+- structured grids with visible hierarchy
+- large-radius containers used as layout organizers
 - lightly hand-drawn or sketch-like callout boxes / outlines
 - bottom ribbon or page-grounding element when appropriate
 - explicit research-paper presence on evidence pages
@@ -148,7 +160,7 @@ Avoid:
 When this user's style corpus is available:
 1. prioritize it over generic design taste
 2. keep body pages visually occupied
-3. use stronger charcoal / tea / accent contrast
+3. use white-background contrast with medical blue dominant and restrained red/orange emphasis
 4. preserve a judgment layer on interpretation pages
 5. let charts, literature, and arguments share the page
 6. prefer “experienced speaker’s slide” over “clean template slide”

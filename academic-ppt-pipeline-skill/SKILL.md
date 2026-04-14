@@ -23,6 +23,14 @@ The long-term goal is not a one-off deck. The goal is a **custom PPT skill** tha
 - package prompt assets for image generation
 - continue until final PPT delivery
 
+The current target architecture is **v2 asset-driven production**:
+- content pipeline
+- visual pipeline
+- asset registry indexed by slide
+- design-system-based assembly into editable `.pptx`
+
+Read [references/v2-architecture.md](references/v2-architecture.md).
+
 ## Tool routing
 
 When PPT production begins:
@@ -74,35 +82,50 @@ In this mode, still move forward:
 - keep visual ambition high even if evidence inputs are incomplete
 
 Read [references/workflow-modes.md](references/workflow-modes.md).
+For the standard startup sequence of each new deck, read [references/project-startup-flow.md](references/project-startup-flow.md).
 
 ## Workflow
 
-1. Run guided intake first if the path is not yet clear.
-2. Extract or normalize inputs.
+The v2 workflow should not jump directly from source materials to finished pages.
+It should move through these layers:
+
+1. Intake and normalization
    - accept `word` or `xlsx` as the lecture outline
    - accept optional template `.pptx`
    - accept literature `.pdf` folder or single pdf
    - if the user provides personal style `pdf/pptx` references, analyze those before choosing the visual system
    - use `scripts/extract_academic_ppt_inputs.js` to create a machine-readable summary before planning slides
-3. Identify page types before building:
-   - cover / opener
-   - text-heavy interpretation page
-   - literature map / comparison page
-   - data page
-   - pathway page
-   - summary page
-4. Keep evidence-heavy slides native inside PowerPoint.
-   - comparisons, tables, meta-analysis numbers, RCT data, and literature references should stay editable
-   - use real paper thumbnails or screenshots when helpful
-5. Use image generation only on the right kinds of pages.
-   - good: cover, pathway, agenda, summary anchor visual
-   - avoid: data-heavy pages, comparison tables, evidence ladder pages with numbers
-6. Choose the PPT production route.
-   - default: `pptx-tfriedel`
-   - fallback: `pptx-anthropic`
-7. Build the PPT in editable shapes and text boxes first.
-8. Add image prompts as a companion asset, not as a substitute for the PPT.
-9. Run QA before delivery.
+2. Content pipeline
+   - framework co-creation
+   - material ingestion
+   - content allocation
+   - copy refinement
+3. Visual pipeline
+   - extract or process figures, tables, screenshots, paper panels, and charts
+   - remake charts into the selected visual system
+   - generate external image prompts for concept / cover / pathway visuals
+   - source icons or graphics only when they increase information density
+4. Asset registry
+   - organize each slide into `copy`, `numbers`, `refs`, `figures`, `charts`, `icons`, `image_prompts`, and `layout_intent`
+   - do not let final assembly invent content that should have been prepared earlier
+5. Assembly
+   - identify page types before building:
+     - cover / opener
+     - text-heavy interpretation page
+     - literature map / comparison page
+     - data page
+     - pathway page
+     - summary page
+   - keep evidence-heavy slides native inside PowerPoint
+   - use real paper thumbnails, screenshots, or remade charts when helpful
+   - use image generation only on the right kinds of pages
+   - choose the PPT production route:
+     - default: `pptx-tfriedel`
+     - fallback: `pptx-anthropic`
+   - build the PPT in editable shapes and text boxes first
+6. QA and delivery
+   - add image prompts as a companion asset, not as a substitute for the PPT
+   - run QA before delivery
 
 ## Input extraction
 
@@ -140,6 +163,7 @@ The current accepted deck is only the minimum gate. It is not the target finish 
 - Fonts must be readable at conference distance.
 - Prefer larger Chinese text over elegant but undersized layouts.
 - Avoid sparse keynote-style empty pages.
+- Default to white as the main contrast field unless a specific project demands otherwise.
 - If the approved reference uses a wide top banner and a full lower information field, follow that architecture.
 - If the user has a personal style corpus, that corpus outranks generic academic aesthetics.
 - Use asymmetrical academic layouts when appropriate:
@@ -148,6 +172,7 @@ The current accepted deck is only the minimum gate. It is not the target finish 
   - stacked cards plus literature strip
 -   strong title band + dense lower diagrams/cards
 - One slide can be text-heavy if the template supports it.
+- Images must carry information or structure, not just decoration.
 - Do not shrink text just to preserve decorative spacing.
 - Default toward the target standard, not the minimum gate.
 
@@ -160,11 +185,15 @@ Image generation should support the slide, not dominate it.
 
 - Match the approved visual direction:
   - white background
-  - flat layered 2D look
+  - flat layered 2D look or restrained editorial image language
   - subtle soft shadow
-  - navy / teal / warm sand palette
+  - medical blue as the dominant family
+  - restrained red / vermilion / orange accents
+  - use [NIPPON COLORS](https://nipponcolors.com/) as a palette philosophy source, not as a beige-only recipe
   - no random text in image
 - Generate images with safe blank areas for slide text.
+- Do not assume a stable built-in or free long-term image API is available.
+- The default image workflow is **prompt-first external generation**.
 - If the model keeps inserting text or fake labels, stop using image generation on that slide and switch to native PPT layout with literature screenshots.
 
 Read [references/prompt-standards.md](references/prompt-standards.md) for prompt templates and negative prompts.
@@ -176,6 +205,7 @@ When the user asks for a full package, default to:
 - image prompt guidance document
 - if images are meant for external tools such as NanoBanana, package them as a standalone Word document with slide-by-slide prompts
 - extraction artifact when raw inputs exist
+- asset or planning artifacts when the project follows the v2 architecture
 - optional local skill or SOP bundle if the user wants the workflow automated
 
 The standard run package should be organized into:

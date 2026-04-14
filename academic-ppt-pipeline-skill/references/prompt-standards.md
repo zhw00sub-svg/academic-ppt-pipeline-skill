@@ -12,6 +12,7 @@ Avoid:
 - literature comparison tables
 - data-heavy results pages
 - evidence ladder pages with specific numbers
+- any slide where the image would only decorate instead of carrying structure or information
 
 ## Prompt language and text language
 
@@ -23,39 +24,52 @@ Avoid:
 
 ## Color direction
 
+- Default to **white background** as the main contrast field.
+- The user's current preference is closer to medical-commercial clarity than earthy beige restraint alone.
+- Use deep medical blue as the dominant family.
+- Use brick red plus restrained vermilion / orange as the main accent families.
+- Use medical cyan / teal as the secondary support family.
 - If the user references [NIPPON COLORS](https://nipponcolors.com/), treat that as a palette philosophy source.
-- Prefer richer charcoal / tea / khaki / muted vermilion families over pale cream minimalism when that matches the user's corpus.
+- Use the site for concentration, restraint, and color judgment, not as a command to make the deck beige.
+- Prefer richer charcoal / medical blue / brick red / medical cyan / restrained orange families over pale cream minimalism when that matches the user's corpus.
 - Avoid over-milky beige and washed-out pastel output.
-- The image should feel concentrated and clear, not sugary or faded.
+- The image should feel concentrated, clear, and commercially legible rather than sugary or faded.
+
+## Delivery rule
+
+- Do not assume a stable long-term image API is available.
+- The default output is a **detailed external prompt package** the user can run across platforms.
+- Prompt quality matters because the prompt may become the reusable asset when no API is directly integrated.
+- Generated or sourced images should target 4K / ultra-high-definition quality whenever possible.
 
 ## Base prompt
 
 ```text
-Academic editorial illustration for a conference slide, clean white background, deep navy + teal + warm sand palette, flat layered 2D paper-cut aesthetic, subtle soft shadow, asymmetrical composition, high-end medical journal visual language, leave clean negative space for slide text, elegant clinical pathway atmosphere, no chinese text, no english headline, no watermark, no glossy 3D rendering, no dramatic lighting, no human face close-up, no clutter.
+Academic editorial illustration for a conference slide, clean white background, deep medical blue dominant palette with brick red and medical cyan support plus restrained orange accents, subtle charcoal structure, flat layered 2D or restrained editorial aesthetic, subtle soft shadow, asymmetrical composition, high-end medical visual language, image should carry structure or information rather than pure decoration, no Chinese text, no English headline, no watermark, no glossy 3D rendering, no dramatic lighting, no human face close-up, no clutter, 4K quality.
 ```
 
 ## Cover prompt
 
 ```text
-Academic editorial illustration for a medical conference slide cover, clean white background, deep navy + teal + warm sand palette, stylized bariatric surgery instrument silhouette on the left, slim obesity pharmacotherapy pen on the right, a graceful clinical pathway curve connecting surgery to medication and long-term follow-up, tiny abstract metabolic icons along the curve, flat layered 2D paper-cut aesthetic, subtle soft shadow, elegant asymmetrical balance, journal-cover quality, leave negative space around the pathway, no chinese text, no english headline, no watermark, no glossy 3D rendering, no dramatic lighting, no human face close-up, no clutter.
+Academic editorial illustration for a medical conference slide cover, clean white background, deep medical blue dominant palette with brick red and medical cyan support plus restrained orange accents, stylized bariatric surgery / chronic disease management theme, journal-cover quality, asymmetrical balance, image should imply long-term management instead of one-off intervention, leave clear title space, no Chinese text, no English headline, no watermark, no glossy 3D rendering, no dramatic lighting, no human face close-up, no clutter, 4K quality.
 ```
 
 ## Pre-op bridge prompt
 
 ```text
-Academic editorial pathway illustration for a conference slide, clean white background, deep navy + teal + warm sand palette, obesity management before bariatric surgery, stylized obese body silhouette, liver optimization cue, airway or respiratory cue, medicine pen cue, surgery endpoint cue, these elements connected by a smooth clinical bridge pathway, flat layered 2D paper-cut style, gentle soft shadow, structured left-to-right logic, high-end academic look, no text inside image, no chinese text, no english labels, no watermark, no glossy 3D rendering, no human face close-up, no clutter.
+Academic editorial pathway illustration for a conference slide, clean white background, deep medical blue dominant palette with brick red and medical cyan support plus restrained orange accents, obesity management before bariatric surgery, stylized body silhouette, liver optimization cue, airway or respiratory cue, medicine cue, surgery endpoint cue, these elements connected by a structured clinical pathway, flat layered 2D editorial style, gentle soft shadow, high-end academic look, no text inside image, no Chinese text, no English labels, no watermark, no glossy 3D rendering, no human face close-up, no clutter, 4K quality.
 ```
 
 ## Agenda prompt
 
 ```text
-Academic editorial pathway-board illustration for a clinical strategy slide, clean white background, deep navy + teal + warm sand palette, four structured zones around a central clinical pathway ribbon, subtle document cards, monitoring cue, follow-up cue, research cue, multidisciplinary care cue, flat layered 2D paper-cut style, elegant asymmetrical composition, leave clean empty space for overlaid slide text, no text inside image, no chinese text, no english labels, no watermark, no glossy 3D rendering, no human figures, no clutter.
+Academic editorial pathway-board illustration for a clinical strategy slide, clean white background, deep medical blue dominant palette with brick red and medical cyan support plus restrained orange accents, four structured zones around a central clinical pathway ribbon, subtle document cards, monitoring cue, follow-up cue, research cue, multidisciplinary care cue, flat layered 2D paper-cut style, elegant asymmetrical composition, leave clean empty space for overlaid slide text, no text inside image, no Chinese text, no English labels, no watermark, no glossy 3D rendering, no human figures, no clutter, 4K quality.
 ```
 
 ## Negative prompt
 
 ```text
-no english headline, no random english text, no poster typography, no watermark, no hospital advertisement style, no purple-blue medical template style, no glossy 3D rendering, no chrome texture, no strong perspective, no dramatic light beam, no human face close-up, no handshake doctor photo, no crowded infographic, no low-resolution artifact, no random symbols.
+no English headline, no random English text, no poster typography, no watermark, no hospital advertisement style, no purple-blue medical template style, no glossy 3D rendering, no chrome texture, no strong perspective, no dramatic light beam, no human face close-up, no handshake doctor photo, no crowded infographic, no low-resolution artifact, no random symbols, no decorative empty beauty shot without information value.
 ```
 
 ## If the model keeps generating text

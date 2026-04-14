@@ -2,6 +2,16 @@
 
 These prompts are the stable backbone of the skill. Reuse them instead of re-inventing the workflow every time.
 
+## V2 production note
+
+The workflow is now asset-driven:
+- content pipeline
+- visual pipeline
+- asset registry by slide
+- design-system assembly
+
+Do not jump directly from raw materials to final page rendering when the project requires high information density.
+
 ## 0. Guided intake prompt
 
 Use at the beginning of a new project.
@@ -43,6 +53,28 @@ Return:
 - risks caused by missing inputs
 
 Do not write slide copy yet. Do not fabricate data.
+```
+
+## 1B. Asset registry planning prompt
+
+Use after outline direction is stable and before final assembly.
+
+```text
+You are converting an academic PPT plan into a slide-level asset registry.
+
+For each slide, return:
+- slide_id
+- page goal
+- copy blocks
+- numbers / tables / chart requirements
+- literature references
+- figure or screenshot candidates
+- external image prompt need or no-image decision
+- icon or graphic needs
+- layout intent
+
+The goal is to make assembly deterministic.
+Do not let the final PPT step invent missing content.
 ```
 
 ## 1A. Personal style extraction prompt
@@ -96,8 +128,11 @@ Requirements:
 - do not turn data pages into decorative pages
 - maintain large readable Chinese typography
 - prefer text-heavy half-screen layouts where the material supports it
+- prefer left-image right-text or structured academic grid layouts when the content supports it
 - prefer a strong title band or judgment band when the reference style supports it
 - make the page feel full and editorial, not sparse and product-keynote-like
+- maximize effective information density rather than elegant emptiness
+- specify when figures, paper panels, screenshots, or remade charts should appear on the page
 - if the user has a personal style corpus, inherit its body-page grammar before using any default visual system
 - identify which claims must stay evidence-bound
 ```
@@ -140,8 +175,12 @@ The deck must meet target-delivery standard:
 - when appropriate, use a large top title band with a dense lower information field
 - allow left-half or right-half text-heavy pages if that matches the approved reference
 - if the user's historical decks use stronger, more concentrated colors, do not wash the page into pale cream minimalism
+- default to white background with medical blue dominant color logic and restrained red / orange emphasis when no stronger project-specific palette overrides it
+- use large-radius containers only when they help organize dense information
+- keep icons minimal and clinical
 - keep evidence-heavy content native inside PowerPoint
 - use image assets only where they strengthen the page
+- images must carry structure or information, not only decoration
 
 Assume the orchestration layer has already selected the PPT production route:
 - primary route: pptx-tfriedel
@@ -163,12 +202,17 @@ Use to derive image prompts for NanoBanana or other external APIs.
 Generate slide-specific image prompts that visually match the approved benchmark image.
 The prompts must:
 - preserve white background
-- use navy / teal / warm sand palette
+- use medical blue as the dominant family
+- use brick red plus restrained vermilion / orange accents
+- use medical cyan / teal as a support family
+- use NIPPON COLORS as a philosophy source for concentration and restraint, not as a beige-only rule
 - prefer flat layered 2D editorial style
 - leave clean negative space for editable slide text
 - use English prompt wording for model control
 - if the image must contain visible words, require exact Simplified Chinese strings
 - avoid unnecessary generated text inside the image
+- be detailed enough that the user can generate the image on another platform without a direct integrated API
+- target 4K / ultra-high-definition quality whenever possible
 
 Also return:
 - negative prompt
