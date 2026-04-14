@@ -6,6 +6,8 @@ description: Build editable Chinese academic PowerPoint decks from outline sprea
 # Academic PPT Pipeline
 
 This skill is the orchestration layer above the existing PPT skills and image workflow.
+This skill must not assume one permanently fixed visual style.
+The default personal style corpus is only the fallback, not the locked output style for every project.
 
 Use this skill when the user wants an academic or medical presentation that must be:
 - editable `.pptx`, not image-only
@@ -48,6 +50,13 @@ At the beginning of a new deck, do not jump straight into production unless the 
 
 If the user's requirements are already explicit enough, skip guided intake and execute directly.
 
+Before automation starts, prefer one front-loaded **style intake** instead of many small aesthetic questions.
+This should behave like a custom style prompt box:
+- if the user supplies a project-specific style brief, use it first
+- if the user leaves style blank, fall back to the user's personal style corpus
+- if neither exists, use the skill default visual system
+- do not lock every future deck to the same historical style
+
 Use a short guided intake:
 - ask one focused question at a time
 - provide option-style choices where tradeoffs exist
@@ -56,6 +65,7 @@ Use a short guided intake:
 - then continue automatically until PPT delivery
 
 Read [references/guided-intake.md](references/guided-intake.md).
+For the style prefill structure, read [references/style-intake-template.md](references/style-intake-template.md).
 
 ## Two input modes
 
@@ -89,6 +99,20 @@ For the standard startup sequence of each new deck, read [references/project-sta
 The v2 workflow should not jump directly from source materials to finished pages.
 It should move through these layers:
 
+0. Style intake
+   - capture project-specific visual intent before the workflow locks into a style
+   - treat the style intake as a front-loaded override / merge / fallback decision
+   - precedence should be:
+     - project-specific style intake
+     - personal style corpus
+     - skill default visual system
+   - style intake may define:
+     - palette direction
+     - density target
+     - image realism level
+     - title-band preference
+     - preferred page grammar
+     - anti-patterns for this specific deck
 1. Intake and normalization
    - accept `word` or `xlsx` as the lecture outline
    - accept optional template `.pptx`
@@ -175,6 +199,7 @@ The current accepted deck is only the minimum gate. It is not the target finish 
 - Images must carry information or structure, not just decoration.
 - Do not shrink text just to preserve decorative spacing.
 - Default toward the target standard, not the minimum gate.
+- If a project-specific style intake conflicts with the default personal style corpus, the project-specific style intake wins for that run.
 
 Read [references/ppt-standards.md](references/ppt-standards.md) for the detailed layout and QA rules.
 For the current user's personalized正文页风格, also read [references/zhw-personal-style.md](references/zhw-personal-style.md).

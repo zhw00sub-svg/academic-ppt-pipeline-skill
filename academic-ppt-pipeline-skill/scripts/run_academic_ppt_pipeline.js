@@ -39,6 +39,30 @@ function normalizeTopic(args) {
   return args.topic || args.title || "";
 }
 
+function normalizeStyleInput(args) {
+  const styleBriefPath = resolveMaybe(args["style-brief"]);
+  const inlineStyleBrief = args["style-brief-text"] || "";
+  let styleBriefText = "";
+  let source = "";
+
+  if (styleBriefPath && fs.existsSync(styleBriefPath)) {
+    styleBriefText = readText(styleBriefPath);
+    source = styleBriefPath;
+  } else if (inlineStyleBrief) {
+    styleBriefText = inlineStyleBrief;
+    source = "inline";
+  }
+
+  const styleMode = args["style-mode"] || (styleBriefText ? "override" : "fallback");
+
+  return {
+    styleMode,
+    styleBriefPath,
+    styleBriefText,
+    source,
+  };
+}
+
 function detectInputMode({ topic, outlinePath, templatePath, literaturePath }) {
   if (outlinePath || templatePath || literaturePath) return "structured_materials";
   if (topic) return "topic_only";
@@ -73,7 +97,7 @@ function buildExtraction(outlinePath, templatePath, literaturePath) {
   return result;
 }
 
-function buildManifest(args, mode, extraction, outputDir) {
+function buildManifest(args, mode, extraction, outputDir, styleInput) {
   const hasLiterature = Boolean(args.literature);
   const hasTemplate = Boolean(args.template);
   const hasBenchmark = Boolean(args["benchmark-image"]);
@@ -97,6 +121,7 @@ function buildManifest(args, mode, extraction, outputDir) {
       outlinePath: resolveMaybe(args.outline),
       templatePath: resolveMaybe(args.template),
       literaturePath: resolveMaybe(args.literature),
+      styleBriefPath: styleInput.styleBriefPath,
       benchmarkImagePath: resolveMaybe(args["benchmark-image"]),
       audience: args.audience || "",
       durationMinutes: args.duration || "",
@@ -105,6 +130,8 @@ function buildManifest(args, mode, extraction, outputDir) {
       outputTarget: args["output-target"] || "full_editable_ppt",
       evidenceMode,
       imageMode,
+      styleMode: styleInput.styleMode,
+      styleSource: styleInput.source || "personal_style_corpus_or_skill_default",
       visualAnchor: hasTemplate && hasBenchmark ? "template_and_benchmark_image"
         : hasTemplate ? "template_only"
         : hasBenchmark ? "benchmark_image_only"
@@ -127,6 +154,8 @@ function buildWorkflowBrief(manifest, extraction) {
   lines.push(`- 备选路由：${manifest.routing.fallbackPptSkill}`);
   lines.push(`- 证据策略：${manifest.executionChoices.evidenceMode}`);
   lines.push(`- 生图策略：${manifest.executionChoices.imageMode}`);
+  lines.push(`- 风格模式：${manifest.executionChoices.styleMode}`);
+  lines.push(`- 风格来源：${manifest.executionChoices.styleSource}`);
   lines.push("");
   lines.push("## 执行判断");
   lines.push("");
@@ -147,6 +176,17 @@ function buildWorkflowBrief(manifest, extraction) {
   } else {
     lines.push("- 未提供完整结构化材料，按命题模式启动。");
     lines.push("- 先生成学术页纲，再区分证据刚性页与结构页。");
+  }
+
+  lines.push("");
+  lines.push("## 风格前置输入");
+  lines.push("");
+  if (manifest.executionChoices.styleSource === "personal_style_corpus_or_skill_default") {
+    lines.push("- 本次未提供项目级 style intake。");
+    lines.push("- 默认回退到个人风格库；若没有个人风格库，再回退到 skill 默认视觉系统。");
+  } else {
+    lines.push("- 本次已提供项目级 style intake。");
+    lines.push("- 该 style intake 将优先于默认个人风格库驱动本次项目。");
   }
 
   lines.push("");
@@ -244,6 +284,7 @@ function buildQualityRubric() {
 
 function buildExecutionPrompt(manifest, extraction, skillDir) {
   const fixedPrompts = readText(path.join(skillDir, "references", "fixed-prompts.md"));
+  const styleBriefText = manifest.styleInput?.styleBriefText || "";
   const lines = [];
   lines.push("# 直接执行提示");
   lines.push("");
@@ -259,15 +300,30 @@ function buildExecutionPrompt(manifest, extraction, skillDir) {
   lines.push(`- 备选 PPT 路由：${manifest.routing.fallbackPptSkill}`);
   lines.push(`- 证据策略：${manifest.executionChoices.evidenceMode}`);
   lines.push(`- 生图策略：${manifest.executionChoices.imageMode}`);
+  lines.push(`- 风格模式：${manifest.executionChoices.styleMode}`);
+  lines.push(`- 风格来源：${manifest.executionChoices.styleSource}`);
   lines.push("");
   lines.push("## 执行要求");
   lines.push("");
   lines.push("- 若需求已明确，跳过 guided intake。");
+  lines.push("- 在进入内容管线之前，先锁定本次项目的 style intake。");
   lines.push("- 优先使用 `pptx-tfriedel` 进行 editable PPT 生产。");
   lines.push("- 若出现小字体、重叠、版面失真或不可编辑结构，切换到 `pptx-anthropic`。");
   lines.push("- 目标不是最低过线，而是尽量达到目标交付。");
   lines.push("- 数据页、比较页、证据页保持原生 PPT 可编辑。");
   lines.push("");
+  if (styleBriefText) {
+    lines.push("## 本次 style intake");
+    lines.push("");
+    lines.push(styleBriefText);
+    lines.push("");
+    lines.push("## 风格执行规则");
+    lines.push("");
+    lines.push("- 本次项目优先遵守以上 style intake。");
+    lines.push("- 若该 style intake 未覆盖某些项目，再回退到个人风格库。");
+    lines.push("- 只有在两者都没有说明时，才回退到 skill 默认视觉系统。");
+    lines.push("");
+  }
   if (extraction?.outlineSummary?.sourceType === "xlsx") {
     lines.push("## 当前讲义主源");
     lines.push("");
@@ -293,6 +349,15 @@ function buildImagePromptPack(manifest, skillDir) {
   } else {
     lines.push("- 未指定视觉基准图，默认使用 skill 内已验证的白底、扁平、学术编辑风。");
   }
+  lines.push(`- 风格模式：${manifest.executionChoices.styleMode}`);
+  lines.push(`- 风格来源：${manifest.executionChoices.styleSource}`);
+  if (manifest.styleInput?.styleBriefText) {
+    lines.push("- 已提供项目级 style intake，应优先体现在生图 prompt 中。");
+    lines.push("");
+    lines.push("## 本次 style intake");
+    lines.push("");
+    lines.push(manifest.styleInput.styleBriefText);
+  }
   lines.push(`- 生图使用策略：${manifest.executionChoices.imageMode}`);
   lines.push("");
   lines.push(promptStandards);
@@ -317,6 +382,7 @@ function main() {
   const args = parseArgs(process.argv);
   const skillDir = path.resolve(__dirname, "..");
   const topic = normalizeTopic(args);
+  const styleInput = normalizeStyleInput(args);
   const outlinePath = resolveMaybe(args.outline);
   const templatePath = resolveMaybe(args.template);
   const literaturePath = resolveMaybe(args.literature);
@@ -338,8 +404,16 @@ function main() {
     fs.writeFileSync(path.join(intakeDir, "01_input_extract.md"), renderMarkdown(extraction), "utf8");
   }
 
-  const manifest = buildManifest(args, mode, extraction, outputDir);
+  const manifest = buildManifest(args, mode, extraction, outputDir, styleInput);
+  manifest.styleInput = styleInput;
   fs.writeFileSync(path.join(intakeDir, "00_run_manifest.json"), JSON.stringify(manifest, null, 2), "utf8");
+  fs.writeFileSync(
+    path.join(intakeDir, "00_style_intake.md"),
+    styleInput.styleBriefText
+      ? `# Style Intake\n\n模式：${styleInput.styleMode}\n\n来源：${styleInput.source}\n\n## 内容\n\n${styleInput.styleBriefText}\n`
+      : `# Style Intake\n\n模式：fallback\n\n本次未提供项目级 style intake。\n默认回退到个人风格库；若无个人风格库，则回退到 skill 默认视觉系统。\n`,
+    "utf8"
+  );
   fs.writeFileSync(path.join(planningDir, "02_workflow_brief.md"), buildWorkflowBrief(manifest, extraction), "utf8");
   fs.writeFileSync(path.join(planningDir, "03_execution_prompt.md"), buildExecutionPrompt(manifest, extraction, skillDir), "utf8");
   if (mode === "topic_only") {

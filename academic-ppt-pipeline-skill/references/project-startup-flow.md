@@ -9,6 +9,38 @@ Every new deck should begin from this structure unless a special case clearly re
 
 ## Default startup sequence
 
+### 0. Capture the style intake first
+
+Before the workflow starts building slides, capture one front-loaded project style brief.
+
+This should be treated as a compact style prompt box, not a long interview.
+
+Allowed outcomes:
+
+- `override`
+  - this run should follow the custom style brief first
+- `merge`
+  - this run should combine the custom style brief with the personal style corpus
+- `fallback`
+  - no project-specific style brief was provided, so use the personal corpus or the skill default
+
+The style intake should define only the variables that materially change the deck:
+
+- palette direction
+- density target
+- image realism / flatness
+- title band strength
+- preferred layout grammar
+- anti-patterns for this run
+- whether this project should stay close to the user's historical body-page style or intentionally deviate
+
+Output:
+- style mode
+- style source
+- style override notes
+- anti-patterns
+- project-specific visual anchor
+
 ### 1. Confirm the production mode
 
 Identify which of the following modes applies:
@@ -33,6 +65,7 @@ Normalize all available inputs:
 - literature `pdf`
 - URLs / DOI / PMID
 - personal style corpus
+- project-specific style intake
 - benchmark images
 
 Output:
@@ -40,6 +73,7 @@ Output:
 - source-of-truth judgment
 - missing pieces
 - production risks
+- style source for this run
 
 ### 3. Start the content pipeline
 
@@ -145,7 +179,8 @@ If a new project starts and the workflow is uncertain, do not ask:
 
 Instead, do this:
 1. normalize inputs
-2. build content and visual pipelines
-3. create asset registry
-4. assemble the editable deck
-5. package prompts
+2. capture style intake
+3. build content and visual pipelines
+4. create asset registry
+5. assemble the editable deck
+6. package prompts

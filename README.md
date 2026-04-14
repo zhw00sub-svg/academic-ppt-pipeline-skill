@@ -65,16 +65,33 @@ See:
 
 Every new project should start from the same production sequence:
 
-1. normalize inputs
-2. run content pipeline
-3. run visual pipeline
-4. build asset registry by slide
-5. assemble editable `.pptx`
-6. package external image prompts
-7. run QA
+1. capture a project-specific style intake if needed
+2. normalize inputs
+3. run content pipeline
+4. run visual pipeline
+5. build asset registry by slide
+6. assemble editable `.pptx`
+7. package external image prompts
+8. run QA
 
 Detailed SOP:
 - `academic-ppt-pipeline-skill/references/project-startup-flow.md`
+- `academic-ppt-pipeline-skill/references/style-intake-template.md`
+
+## Style precedence
+
+This repository no longer assumes one permanently fixed style for every deck.
+
+Each run should resolve style in this order:
+
+1. project-specific style intake
+2. personal style corpus
+3. skill default visual system
+
+This lets the same workflow produce:
+- decks close to the user's established style
+- deliberate one-off style deviations for a specific event
+- neutral fallback decks when no style brief exists
 
 ## Input modes
 
@@ -118,7 +135,17 @@ npm run academic-ppt-pipeline -- \
   --outline "/path/to/outline.xlsx" \
   --template "/path/to/template.pptx" \
   --literature "/path/to/literature-folder" \
+  --style-brief "/path/to/style-brief.md" \
   --benchmark-image "/path/to/benchmark.png" \
+  --output-dir "output/demo_run"
+```
+
+You can also pass a short inline style override:
+
+```bash
+npm run academic-ppt-pipeline -- \
+  --topic "示例主题" \
+  --style-brief-text "White background, denser evidence pages, stronger brick red accents, less rounded-card feeling, no keynote emptiness." \
   --output-dir "output/demo_run"
 ```
 

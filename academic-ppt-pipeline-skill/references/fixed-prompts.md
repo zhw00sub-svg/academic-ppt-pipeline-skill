@@ -31,6 +31,33 @@ Collect only the choices that change the workflow:
 After enough is known, stop asking and summarize the chosen path in 3-5 lines, then continue automatically.
 ```
 
+## 0A. Style intake prompt
+
+Use before the content pipeline whenever the project should not be forced into one fixed style.
+
+```text
+You are collecting a front-loaded style intake for a Chinese academic PPT workflow.
+
+Do not run a long aesthetic interview.
+Collect one compact style brief that can drive the whole project.
+
+Return:
+- style mode: override / merge / fallback
+- overall visual direction
+- palette direction
+- density target
+- image usage preference
+- title-band preference
+- preferred body-page grammar
+- anti-patterns for this run
+
+Rules:
+- if the user gives a project-specific style brief, that brief outranks the default personal style corpus for this run
+- if the user gives only partial style guidance, merge it with the personal corpus
+- if the user gives nothing, fall back to the personal corpus, then to the skill default visual system
+- keep the result short, operational, and immediately usable by the assembly stage
+```
+
 ## 1. Intake normalization prompt
 
 Use after reading the extracted inputs.
@@ -47,6 +74,7 @@ Return:
 - input status
 - preferred planning source
 - slide count if available
+- style source for this run
 - evidence availability by page
 - template style cues if available
 - personal style corpus cues if the user supplied historical `pdf/pptx` decks
@@ -175,6 +203,7 @@ The deck must meet target-delivery standard:
 - when appropriate, use a large top title band with a dense lower information field
 - allow left-half or right-half text-heavy pages if that matches the approved reference
 - if the user's historical decks use stronger, more concentrated colors, do not wash the page into pale cream minimalism
+- if this run has a project-specific style intake, obey that intake before falling back to the user's default personal corpus
 - default to white background with medical blue dominant color logic and restrained red / orange emphasis when no stronger project-specific palette overrides it
 - use large-radius containers only when they help organize dense information
 - keep icons minimal and clinical
