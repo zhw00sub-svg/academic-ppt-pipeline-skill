@@ -15,6 +15,30 @@ Before the workflow starts building slides, capture one front-loaded project sty
 
 This should be treated as a compact style prompt box, not a long interview.
 
+The startup should first resolve one of three style-entry choices:
+
+- `preset1`
+  - the user's current integrated stronger-contrast corpus style
+- `preset2`
+  - the lighter calm medical evidence-summary palette
+- `custom`
+  - a manual project-specific style brief
+
+User-facing labels should be:
+
+- `强对比浓重风`
+  - internal key: `preset1`
+- `轻快医学信息风`
+  - internal key: `preset2`
+- `自定义风格`
+  - internal key: `custom`
+
+Then resolve the style mode:
+
+- `override`
+- `merge`
+- `fallback`
+
 Allowed outcomes:
 
 - `override`
@@ -35,6 +59,7 @@ The style intake should define only the variables that materially change the dec
 - whether this project should stay close to the user's historical body-page style or intentionally deviate
 
 Output:
+- startup style choice
 - style mode
 - style source
 - style override notes

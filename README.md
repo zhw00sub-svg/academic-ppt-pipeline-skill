@@ -82,6 +82,15 @@ Detailed SOP:
 
 This repository no longer assumes one permanently fixed style for every deck.
 
+Each run should first choose one startup style source:
+
+1. `强对比浓重风` (`preset1`)
+   current integrated strong-contrast style derived from the user's corpus
+2. `轻快医学信息风` (`preset2`)
+   lighter calm evidence-summary medical palette
+3. `自定义风格` (`custom`)
+   user-written project style brief
+
 Each run should resolve style in this order:
 
 1. project-specific style intake
@@ -132,6 +141,7 @@ Run the execution entrypoint:
 ```bash
 npm run academic-ppt-pipeline -- \
   --topic "示例主题" \
+  --style-preset "preset2" \
   --outline "/path/to/outline.xlsx" \
   --template "/path/to/template.pptx" \
   --literature "/path/to/literature-folder" \
@@ -145,6 +155,7 @@ You can also pass a short inline style override:
 ```bash
 npm run academic-ppt-pipeline -- \
   --topic "示例主题" \
+  --style-preset "custom" \
   --style-brief-text "White background, denser evidence pages, stronger brick red accents, less rounded-card feeling, no keynote emptiness." \
   --output-dir "output/demo_run"
 ```

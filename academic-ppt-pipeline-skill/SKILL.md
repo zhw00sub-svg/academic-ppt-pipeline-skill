@@ -52,6 +52,10 @@ If the user's requirements are already explicit enough, skip guided intake and e
 
 Before automation starts, prefer one front-loaded **style intake** instead of many small aesthetic questions.
 This should behave like a custom style prompt box:
+- startup choice should first resolve:
+  - `强对比浓重风` (`preset1`): current strong-contrast integrated style from the user's corpus
+  - `轻快医学信息风` (`preset2`): lighter calm evidence-summary medical palette
+  - `自定义风格` (`custom`): user-written project-specific brief
 - if the user supplies a project-specific style brief, use it first
 - if the user leaves style blank, fall back to the user's personal style corpus
 - if neither exists, use the skill default visual system
@@ -101,6 +105,10 @@ It should move through these layers:
 
 0. Style intake
    - capture project-specific visual intent before the workflow locks into a style
+   - first resolve the startup style choice:
+     - `强对比浓重风` (`preset1`)
+     - `轻快医学信息风` (`preset2`)
+     - `自定义风格` (`custom`)
    - treat the style intake as a front-loaded override / merge / fallback decision
    - precedence should be:
      - project-specific style intake

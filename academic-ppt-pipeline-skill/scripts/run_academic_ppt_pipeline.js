@@ -39,13 +39,121 @@ function normalizeTopic(args) {
   return args.topic || args.title || "";
 }
 
+const STYLE_PRESETS = {
+  preset1: `Startup style choice: preset1
+
+Project visual goal:
+- close to the user's currently integrated strong-contrast lecture style
+
+Palette direction:
+- white background
+- deeper medical blue dominant
+- restrained brick red / orange / cyan accents
+- stronger contrast than airy poster styles
+
+Density target:
+- dense to very dense
+
+Title system:
+- strong top banner
+
+Preferred page grammar:
+- left-image right-text
+- structured grid
+- paper strip + judgment block
+- strong title band + dense lower information field
+
+Image strategy:
+- use external image prompts only on key pages
+- prefer literature screenshots / paper panels on evidence pages
+- keep visuals information-bearing, not decorative
+- realism level: flat / editorial
+
+Anti-patterns for this project:
+- keynote emptiness
+- pastel dilution
+- decorative low-information hero images
+
+Relation to historical personal style:
+- stay close`,
+  preset2: `Startup style choice: preset2
+
+Project visual goal:
+- calm, evidence-based, scholarly, modern, trustworthy
+
+Palette direction:
+- predominantly white and misty off-white background
+- soft powder blue, pale clinical sky blue, mint green, teal-green
+- cool neutral greys for comparison groups, tables, borders, grids, and secondary content
+- deep charcoal to near-black for titles and text
+- one restrained muted medical orange accent only
+- slightly desaturated and airy, rational medical tone
+
+Suggested colors:
+- #FEFEFC
+- #EDF6FC
+- #B2D4ED
+- #5C9AD0
+- #BFE6D7
+- #63BFA8
+- #D1DBDA
+- #AFB7B9
+- #707978
+- #141516
+- Accent orange: #E59A5A
+
+Density target:
+- dense but calm
+
+Title system:
+- lighter title strip or refined top banner
+
+Preferred page grammar:
+- left-image right-text
+- structured grid
+- compact data zones
+- clean comparison charts
+
+Image strategy:
+- prefer publication-summary style graphics
+- simplified medical line icons
+- realism level: flat / editorial / restrained realistic
+
+Anti-patterns for this project:
+- neon colours
+- bright red
+- fluorescent green
+- candy colours
+- glossy effects
+- noisy backgrounds
+- commercial healthcare advertising style
+- cartoonish icons
+- playful illustration
+- social-media exaggeration
+- oversaturated gradients
+
+Relation to historical personal style:
+- intentionally lighter but still serious`,
+};
+
+const STYLE_PRESET_LABELS = {
+  preset1: "强对比浓重风",
+  preset2: "轻快医学信息风",
+  custom: "自定义风格",
+  none: "未指定",
+};
+
 function normalizeStyleInput(args) {
+  const stylePreset = args["style-preset"] || "";
   const styleBriefPath = resolveMaybe(args["style-brief"]);
   const inlineStyleBrief = args["style-brief-text"] || "";
   let styleBriefText = "";
   let source = "";
 
-  if (styleBriefPath && fs.existsSync(styleBriefPath)) {
+  if (stylePreset && stylePreset !== "custom" && STYLE_PRESETS[stylePreset]) {
+    styleBriefText = STYLE_PRESETS[stylePreset];
+    source = `preset:${stylePreset}`;
+  } else if (styleBriefPath && fs.existsSync(styleBriefPath)) {
     styleBriefText = readText(styleBriefPath);
     source = styleBriefPath;
   } else if (inlineStyleBrief) {
@@ -56,11 +164,16 @@ function normalizeStyleInput(args) {
   const styleMode = args["style-mode"] || (styleBriefText ? "override" : "fallback");
 
   return {
+    stylePreset: stylePreset || (styleBriefText ? "custom" : ""),
     styleMode,
     styleBriefPath,
     styleBriefText,
     source,
   };
+}
+
+function stylePresetLabel(key) {
+  return STYLE_PRESET_LABELS[key || "none"] || key || "未指定";
 }
 
 function detectInputMode({ topic, outlinePath, templatePath, literaturePath }) {
@@ -122,6 +235,7 @@ function buildManifest(args, mode, extraction, outputDir, styleInput) {
       templatePath: resolveMaybe(args.template),
       literaturePath: resolveMaybe(args.literature),
       styleBriefPath: styleInput.styleBriefPath,
+      stylePreset: styleInput.stylePreset,
       benchmarkImagePath: resolveMaybe(args["benchmark-image"]),
       audience: args.audience || "",
       durationMinutes: args.duration || "",
@@ -130,6 +244,8 @@ function buildManifest(args, mode, extraction, outputDir, styleInput) {
       outputTarget: args["output-target"] || "full_editable_ppt",
       evidenceMode,
       imageMode,
+      stylePreset: styleInput.stylePreset || "none",
+      stylePresetLabel: stylePresetLabel(styleInput.stylePreset || "none"),
       styleMode: styleInput.styleMode,
       styleSource: styleInput.source || "personal_style_corpus_or_skill_default",
       visualAnchor: hasTemplate && hasBenchmark ? "template_and_benchmark_image"
@@ -188,6 +304,7 @@ function buildWorkflowBrief(manifest, extraction) {
     lines.push("- 本次已提供项目级 style intake。");
     lines.push("- 该 style intake 将优先于默认个人风格库驱动本次项目。");
   }
+  lines.push(`- 启动样式选择：${manifest.executionChoices.stylePresetLabel}（${manifest.executionChoices.stylePreset}）`);
 
   lines.push("");
   lines.push("## 标准输出包");
@@ -410,8 +527,8 @@ function main() {
   fs.writeFileSync(
     path.join(intakeDir, "00_style_intake.md"),
     styleInput.styleBriefText
-      ? `# Style Intake\n\n模式：${styleInput.styleMode}\n\n来源：${styleInput.source}\n\n## 内容\n\n${styleInput.styleBriefText}\n`
-      : `# Style Intake\n\n模式：fallback\n\n本次未提供项目级 style intake。\n默认回退到个人风格库；若无个人风格库，则回退到 skill 默认视觉系统。\n`,
+      ? `# Style Intake\n\n启动样式选择：${stylePresetLabel(styleInput.stylePreset || "custom")}（${styleInput.stylePreset || "custom"}）\n\n模式：${styleInput.styleMode}\n\n来源：${styleInput.source}\n\n## 内容\n\n${styleInput.styleBriefText}\n`
+      : `# Style Intake\n\n启动样式选择：${stylePresetLabel("none")}（none）\n\n模式：fallback\n\n本次未提供项目级 style intake。\n默认回退到个人风格库；若无个人风格库，则回退到 skill 默认视觉系统。\n`,
     "utf8"
   );
   fs.writeFileSync(path.join(planningDir, "02_workflow_brief.md"), buildWorkflowBrief(manifest, extraction), "utf8");
